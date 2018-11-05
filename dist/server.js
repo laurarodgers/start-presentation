@@ -19,6 +19,10 @@ app.get('/', function(req, res) {
 app.get('/js/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 });
+
+app.get('/assets/glass-ping.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/assets/glass-ping.mp3'));
+});
 // app.get('/build/', function(req, res) {
 //     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 // });

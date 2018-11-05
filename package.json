@@ -19,7 +19,10 @@
     "redux": "^4.0.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
-    "video-react": "^0.10.9"
+    "video-react": "^0.10.9",
+    "react-sound": "1.2.0",
+    "howler": "2.0.15",
+    "react-howler": "3.7.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
