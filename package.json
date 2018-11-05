@@ -4,13 +4,6 @@
   "private": false,
   "main": "index.js",
   "dependencies": {
-    "@vx/axis": "0.0.166",
-    "@vx/grid": "0.0.166",
-    "@vx/group": "0.0.165",
-    "@vx/mock-data": "0.0.165",
-    "@vx/scale": "0.0.165",
-    "@vx/shape": "0.0.166",
-    "@vx/threshold": "0.0.166",
     "d3-time-format": "^2.1.1",
     "express": "4.16.4",
     "react": "^16.6.0",
@@ -22,7 +15,8 @@
     "video-react": "^0.10.9",
     "react-sound": "1.2.0",
     "howler": "2.0.15",
-    "react-howler": "3.7.3"
+    "react-howler": "3.7.3",
+    "express-csp-header": "2.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

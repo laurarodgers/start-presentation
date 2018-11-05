@@ -9,18 +9,23 @@ var server = require('http').Server(app);
 //var io = require('socket.io')(server);
 const fs = require('fs');
 
+const csp = require('express-csp-header');
+
 const PORT = process.env.PORT || 3000;
 //const INDEX = path.join(__dirname, 'index.html');
 const io = socketIO(server);
 
-app.use(function(req, res, next) {
-    res.setHeader("Content-Security-Policy", "
-                         default-src 'self';
-                         img-src 'self';
-                         font-src 'self';
-                         style-src 'self'");
-    return next();
-});
+app.use(csp({
+    policies: {
+        'default-src': [csp.SELF],
+        'script-src': [csp.SELF, csp.INLINE, 'laurarodgers.com'],
+        'media-src' : [csp.SELF],
+        'style-src': [csp.SELF, 'laurarodgers.com'],
+        'img-src': [csp.SELF,'data:', 'images.com'],
+        'worker-src': [csp.NONE],
+        'block-all-mixed-content': true
+    }
+}));
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
