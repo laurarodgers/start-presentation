@@ -17,7 +17,7 @@ const io = socketIO(server);
 
 app.use(csp({
     policies: {
-        'default-src': [csp.SELF],
+        'default-src': '*',
         'script-src': [csp.SELF, csp.INLINE, 'laurarodgers.com'],
         'media-src' : [csp.SELF],
         'style-src': [csp.SELF, 'laurarodgers.com'],
