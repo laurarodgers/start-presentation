@@ -146,7 +146,7 @@ render() {
       </p>
       {this.multiButton()}
       {this.sound1()}
-
+      <img src="../kiss.jpg"/>
       <TextItem text={this.state.text}/>
     </div>
   );

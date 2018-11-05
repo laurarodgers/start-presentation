@@ -34,6 +34,10 @@ app.get('/js/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 });
 
+app.get('/kiss.jpg', function(req, res) {
+    res.sendFile(path.join(__dirname + '/kiss.jpg'));
+});
+
 app.get('/glass-ping.mp3', function(req, res) {
     res.sendFile(path.join(__dirname + '/glass-ping.mp3'));
 });
