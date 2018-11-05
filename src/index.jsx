@@ -47,7 +47,7 @@ sound1(){
   console.log("establishig sound 1?");
   return (
   <ReactHowler
-        src="../glass-ping.mp3"
+        src="glass-ping.mp3"
         playing={this.state.sound1playing}
         preload={true}
         loop={false}
@@ -147,7 +147,7 @@ render() {
       {this.multiButton()}
       {this.sound1()}
       <div>
-      <img className="imageClass" src="../kiss.jpg"/></div>
+      <img className="imageClass" src="kiss.jpg"/></div>
       <TextItem text={this.state.text}/>
     </div>
   );
