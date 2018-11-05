@@ -6,6 +6,9 @@ import TextItem from './TextItem.jsx';
 import Sound from 'react-sound';
 import {Howl, Howler} from 'howler';
 import ReactHowler from 'react-howler';
+//var pingSound = require('../glass-ping.mp3');
+// import pingSound from "../glass-ping.mp3"
+// import image1 from "../kiss.jpg"
 // import ComponentName from '../subdir/ComponentFilename.jsx';
 
 class App extends React.Component {
@@ -16,7 +19,6 @@ class App extends React.Component {
       buttonArg: 'no button arg yet',
       text: '',
       sound1playing: false,
-      buttonURL: "../glass-ping.mp3",
     };
     this.audio = React.createRef();
   //subscribeToTimer((err, timestamp) => {this.setState({
@@ -47,7 +49,7 @@ sound1(){
   console.log("establishig sound 1?");
   return (
   <ReactHowler
-        src="glass-ping.mp3"
+        src="../glass-ping.mp3"
         playing={this.state.sound1playing}
         preload={true}
         loop={false}
@@ -147,7 +149,7 @@ render() {
       {this.multiButton()}
       {this.sound1()}
       <div>
-      <img className="imageClass" src="kiss.jpg"/></div>
+      <img className="imageClass" src="../kiss.jpg" /></div>
       <TextItem text={this.state.text}/>
     </div>
   );

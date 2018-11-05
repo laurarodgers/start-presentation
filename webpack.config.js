@@ -26,7 +26,7 @@ module.exports = {
     test: /\.(pdf|jpg|png|gif|svg|ico|mp3)$/,
     use: [
         {
-            loader: 'url-loader'
+            loader: 'file-loader'
         },
       ]
       },

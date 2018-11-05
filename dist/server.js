@@ -21,7 +21,7 @@ app.use(csp({
         'script-src': [csp.SELF, csp.INLINE, 'laurarodgers.com'],
         'media-src' : [csp.SELF],
         'style-src': [csp.SELF, 'laurarodgers.com'],
-        'img-src': [csp.SELF,'data:', 'images.com'],
+        'img-src': [csp.SELF,'https:', 'laurarodgers.com'],
         'worker-src': [csp.NONE],
         'block-all-mixed-content': true
     }
