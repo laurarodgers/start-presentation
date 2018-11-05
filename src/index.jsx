@@ -44,6 +44,7 @@ componentDidMount() {
 }
 
 sound1(){
+  console.log("establishig sound 1?");
   return (
   <ReactHowler
         src="../glass-ping.mp3"
