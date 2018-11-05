@@ -16,7 +16,7 @@ class App extends React.Component {
       buttonArg: 'no button arg yet',
       text: '',
       sound1playing: false,
-      buttonURL: "../assets/glass-ping.mp3",
+      buttonURL: "../glass-ping.mp3",
     };
     this.audio = React.createRef();
   //subscribeToTimer((err, timestamp) => {this.setState({
@@ -46,7 +46,7 @@ componentDidMount() {
 sound1(){
   return (
   <ReactHowler
-        src="../assets/glass-ping.mp3"
+        src="../glass-ping.mp3"
         playing={this.state.sound1playing}
         preload={true}
         loop={false}
