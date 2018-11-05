@@ -13,7 +13,6 @@
     "@vx/threshold": "0.0.166",
     "d3-time-format": "^2.1.1",
     "express": "4.16.4",
-    "midi": "^0.9.5",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-scripts": "2.1.1",
@@ -51,5 +50,8 @@
     "webpack": "^4.11.0",
     "webpack-cli": "^3.0.2",
     "webpack-dev-server": "^3.1.4"
+  },
+  "engines": {
+    "node": "10.3.0"
   }
 }
