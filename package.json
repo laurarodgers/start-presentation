@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --open",
+    "start": "npm run build; npm run server",
     "dev": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production",
     "suite": "npm run build; node dist/server.js",

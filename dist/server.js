@@ -19,6 +19,9 @@ app.get('/', function(req, res) {
 app.get('/js/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 });
+// app.get('/build/', function(req, res) {
+//     res.sendFile(path.join(__dirname + '/js/bundle.js'));
+// });
   //app.use((req, res) => res.sendFile(path.join(__dirname + '/index.html') )
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
