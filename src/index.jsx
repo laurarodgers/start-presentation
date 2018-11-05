@@ -57,6 +57,7 @@ sound1(){
 
 playSound1() {
   console.log("playing sound 1?");
+  console.log(this.audio.howler.state());
   this.setState({sound1playing: true});
   this.audio.howler.play();
   //this.setState({sound1playing: true});
