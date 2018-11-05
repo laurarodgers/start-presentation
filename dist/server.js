@@ -13,6 +13,15 @@ const PORT = process.env.PORT || 3000;
 //const INDEX = path.join(__dirname, 'index.html');
 const io = socketIO(server);
 
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "
+                         default-src 'self';
+                         img-src 'self';
+                         font-src 'self';
+                         style-src 'self'");
+    return next();
+});
+
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
@@ -23,6 +32,7 @@ app.get('/js/bundle.js', function(req, res) {
 app.get('/assets/glass-ping.mp3', function(req, res) {
     res.sendFile(path.join(__dirname + '/assets/glass-ping.mp3'));
 });
+
 // app.get('/build/', function(req, res) {
 //     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 // });
