@@ -17,7 +17,7 @@ const io = socketIO(server);
 
 app.use(csp({
     policies: {
-        'default-src': '*',
+        'default-src': [csp.SELF],
         'script-src': [csp.SELF, csp.INLINE, 'laurarodgers.com'],
         'media-src' : [csp.SELF],
         'style-src': [csp.SELF, 'laurarodgers.com'],
@@ -34,8 +34,8 @@ app.get('/js/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 });
 
-app.get('/assets/glass-ping.mp3', function(req, res) {
-    res.sendFile(path.join(__dirname + '/assets/glass-ping.mp3'));
+app.get('/glass-ping.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/glass-ping.mp3'));
 });
 
 // app.get('/build/', function(req, res) {
