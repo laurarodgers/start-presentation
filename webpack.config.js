@@ -23,6 +23,14 @@ module.exports = {
         ]
       },
       {
+    test: /\.(pdf|jpg|png|gif|svg|ico|mp3)$/,
+    use: [
+        {
+            loader: 'url-loader'
+        },
+      ]
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: "babel-loader"
