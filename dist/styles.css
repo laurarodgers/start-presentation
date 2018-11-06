@@ -1,34 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=VT323');
-
-.TimedelayText {
-  position: absolute;
-  font-size: 32px;
-  font-family: 'VT323', monospace;
-  color: #FFFFFF;
-  top: 0px;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  z-index: 45;
-  text-shadow:
-   -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
-  -webkit-animation: myanim 30s ease 5s;
-}
-
-@-webkit-keyframes myanim {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
 .PageBG {
-  position: fixed;
+  position: absolute;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -39,111 +10,19 @@
 }
 
 .TitleText {
-  position: absolute;
-  font-size: 32px;
-  font-family: 'VT323', monospace;
-  color: #FFFFFF;
-  top: 0px;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  z-index: 45;
-  text-shadow:
-   -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
-}
-
-.MessageText {
-  position: absolute;
+  position: relative;
+  width:1000px;
   font-size: 32px;
   font-family: Helvetica, Verdana, sans-serif;
-  color: #000000;
-  top: 0%;
-  left: 100%;
-  transform: translate(-100%, -100%);
-  z-index: 45;
-}
-
-.PopulationPrintout {
-  position: absolute;
-  font-size: 10px;
-  font-family: monospace;
-  width: 100px;
-  text-align: left;
   color: #FFFFFF;
-  bottom: 0;
-  left: 0;
   z-index: 45;
-  white-space: pre-wrap
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .VidDiv {
-  z-index: 0;
-  text-align: center;
-  position: fixed;
-  padding-bottom: 56.25%
-}
-
-.VidStyle {
-  position:fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top:0
-}
-
-.ButtonDiv {
-  position: absolute;
   z-index: 5;
-  left: 50%;
-  transform: translate(-50%, -100%);
-  top: 100%;
-}
-
-.ButtonDivLeft {
-  position: absolute;
-  z-index: 5;
-  left: 20%;
-  transform: translate(-0%, -100%);
-  top: 100%;
-  text-align: left;
-}
-
-.ButtonDivRight {
-  position: absolute;
-  z-index: 5;
-  left: 80%;
-  transform: translate(-100%, -100%);
-  top: 100%;
-  text-align: right;
-}
-
-.NavButton {
-  position: relative;
-  font-family: 'VT323', monospace;
-  color: #FFFFFF;
-  z-index: 45;
-  text-shadow:
-   -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
-  background-color: Transparent;
-  border: none;
-  font-size: 28px;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top:20px;
-  margin-bottom: 20px
-}
-
-.NavButton:hover {
-  cursor: pointer;
-}
-
-.NavButton:focus {
-  outline: 0;
+  text-align: center
 }
 
 .CheckListDiv {
@@ -159,6 +38,8 @@ font-style: italic;
 }
 
 
+
+
 .ListSubmitDiv {
 height:150px;
 text-align: center;
@@ -169,7 +50,29 @@ vertical-align: bottom;
   line-height:50px;
 }
 
+.CheckButton {
+  position: relative;
+  background-color: #444444;
+  text-align: center;
+  float:left;
+  width: 50px;
+  height: 50px;
+  border: none;
+  color: #FFFFFF;
+  font-size: 28px;
+  font-family: Helvetica, Verdana, sans-serif;
+  margin-left: 0px;
+  margin-right: 20px;
+}
 
+.CheckButton:hover {
+  background-color: #333333;
+  cursor: pointer;
+}
+
+.CheckButton:focus {
+  outline: 0;
+}
 
 .CheckSubmitButton {
   position: relative;

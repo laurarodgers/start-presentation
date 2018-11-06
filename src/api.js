@@ -16,7 +16,19 @@ import io from 'socket.io-client';
 function subscribeToTimer(cb) {
   console.log('time API call!');
   socket.on('time', timestamp => cb(null, timestamp));
-  socket.emit('subscribeToTimer', 1000);
+  //socket.emit('subscribeToTimer', 1000);
+}
+
+function subscribeToPopulation(cb) {
+  console.log('population API call');
+  socket.on('population', popn => cb(null, popn));
+  //socket.emit('subscribeToTimer', 1000);
+}
+
+function updatePopulation(numberchange) {
+  socket.emit('population update', numberchange);
+  console.log('population update: ' + numberchange);
+  //socket.emit('subscribeToTimer', 1000);
 }
 
 function subscribeToButton(cb) {
@@ -25,8 +37,8 @@ function subscribeToButton(cb) {
 }
 
 function pressButton() {
-  socket.emit('button press', {for: 'everyone'});
+  socket.emit('button press');
   console.log('button pressed!');
 }
 
-export { subscribeToTimer, subscribeToButton, pressButton };
+export { subscribeToTimer, subscribeToButton, subscribeToPopulation, updatePopulation, pressButton };
