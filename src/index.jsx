@@ -6,6 +6,10 @@ import TextItem from './TextItem.jsx';
 import Sound from 'react-sound';
 import {Howl, Howler} from 'howler';
 import ReactHowler from 'react-howler';
+import Vimeo from '@u-wave/react-vimeo';
+import './styles.css';
+
+
 //var pingSound = require('../glass-ping.mp3');
 // import pingSound from "../glass-ping.mp3"
 // import image1 from "../kiss.jpg"
@@ -15,10 +19,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timestamp: 'no timestamp yet',
-      buttonArg: 'no button arg yet',
-      text: '',
+      timestamp: '',
+      buttonArg: '',
+      video: 1,
       sound1playing: false,
+      relieve: {a: "lehtëso veten", b: "zvigadzirire iwe pachako", c: "бошотпойт бол"},
+      getmoney: {a: "kuwana mari", b: "акча алуу", c: "mendapatkan uan"},
+      relieveWhich: 0,
+      moneyWhich: 0,
     };
     this.audio = React.createRef();
   //subscribeToTimer((err, timestamp) => {this.setState({
@@ -33,6 +41,7 @@ componentDidMount() {
   api.subscribeToButton((err,buttonArg) => {this.setState({buttonArg});
                                             this.playSound1();
                                             console.log('buttton callback!');});
+
 
 //   this.sound1 = new Howl({
 //   src: ["../assets/glass-ping.mp3", "../assets/glass-ping.wav"],
@@ -64,6 +73,28 @@ playSound1() {
   this.setState({sound1playing: true});
   this.audio.howler.play();
   //this.setState({sound1playing: true});
+}
+
+relieve() {
+  if (this.state.relieveWhich == 0) {
+    return (this.state.relieve.a);}
+    else if (this.state.relieveWhich == 1) {
+        return (this.state.relieve.b);
+    }
+    else {
+      return (this.state.relieve.c);
+    }
+}
+
+money() {
+  if (this.state.moneyWhich == 0) {
+    return (this.state.getmoney.a);}
+    else if (this.state.moneyWhich == 1) {
+        return (this.state.getmoney.b);
+    }
+    else {
+      return (this.state.getmoney.c);
+    }
 }
 
 //onEnd={this.audio.howler([loop], [id])}
@@ -112,46 +143,101 @@ playSound1() {
 //}
 
 
-multiButton() {
+UButton() {
   return(
-  <button className='CheckButton' onClick={() => {api.pressButton(); this.playSound1();}}>Button</button>);
+  <button className='CheckButton' onClick={() => {api.pressButton(); this.setState({video: 2});
+    this.setState({relieveWhich: Math.floor((Math.random() * 3))});
+    this.playSound1();}}>{this.relieve()}</button>);
 }
+
+BButton() {
+  return(
+  <button className='CheckButton' onClick={() => {api.pressButton(); this.setState({video: 3});
+    this.setState({moneyWhich: Math.floor((Math.random() * 3))});
+    this.playSound1();}}>{this.money()}</button>);
+}
+
+TimeText() {
+    if (this.state.buttonArg != '') {
+      return (
+        new Date(this.state.buttonArg).toLocaleString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true,
+                timeZoneName: 'short'
+              }).toLowerCase()
+
+      );
+  }
+  else if (this.state.timestamp != '') {
+    return (
+      new Date(this.state.timestamp).toLocaleString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+              second: 'numeric',
+              hour12: true,
+              timeZoneName: 'short'
+            }).toLowerCase()
+
+
+      ); }
+  else {
+    return (
+    "I don't know when");}
+}
+
+videoVid() {
+  if (this.state.video == 1) {
+    return (
+      <div className="VidDiv">
+    <Vimeo
+video="5358349"
+autoplay="true" volume="0"/>
+</div>);}
+else if (this.state.video == 2) {
+  return (
+    <div className="VidDiv">
+  <Vimeo
+video="36912360"
+autoplay="true" volume="0"/>
+</div>
+);
+}
+  else {
+    return (
+      <div className="VidDiv">
+    <Vimeo
+  video="153447976"
+  autoplay="true" volume="0"/>
+  </div>
+  );
+  }
+}
+
 
 render() {
   return (
     <div className="App">
-      <p className="App-intro">
-      This is the timer value: {this.state.timestamp ? new Date(this.state.timestamp).toLocaleString('en-US', {
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            hour12: true,
-            timeZoneName: 'short'
-          }) : "no date yet"}
-      </p>
-      <p className="Button-info">
-      Button last pressed at: {this.state.buttonArg ? new Date(this.state.buttonArg).toLocaleString('en-US', {
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            hour12: true,
-            timeZoneName: 'short'
-          }) : "no date yet"}
-      </p>
-      {this.multiButton()}
+      <div className='PageBG'></div>
+      <p className="TitleText">
+        {this.TimeText()}
+        </p>
       {this.sound1()}
-      <div>
-      <img className="imageClass" src="../kiss.jpg" /></div>
-      <TextItem text={this.state.text}/>
-    </div>
+      {this.videoVid()}
+      <div className="VidDiv">
+  {this.UButton()}
+  {this.BButton()}
+  </div>
+</div>
   );
 }
 

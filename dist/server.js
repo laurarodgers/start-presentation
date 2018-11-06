@@ -17,13 +17,15 @@ const io = socketIO(server);
 
 app.use(csp({
     policies: {
-        'default-src': [csp.SELF, 'https:'],
-        'script-src': [csp.SELF, csp.INLINE, 'laurarodgers.com'],
-        'media-src' : [csp.SELF],
-        'style-src': [csp.SELF, 'laurarodgers.com'],
-        'img-src': [csp.SELF,'https:', 'laurarodgers.com'],
-        'worker-src': [csp.NONE],
-        'block-all-mixed-content': true
+        'reportOnly' : true,
+        'default-src': [csp.SELF, csp.INLINE, 'https:'],
+        'script-src': [csp.SELF, csp.INLINE, 'laurarodgers.com', 'unsafe-inline'],
+        'media-src' : [csp.SELF, 'unsafe-inline'],
+        'style-src': [csp.SELF, csp.INLINE, 'laurarodgers.com','unsafe-inline'],
+        'img-src': [csp.SELF,'https:', 'laurarodgers.com','unsafe-inline'],
+        'worker-src': [csp.NONE,'unsafe-inline'],
+        'block-all-mixed-content': false,
+
     }
 }));
 
@@ -42,9 +44,14 @@ app.get('/glass-ping.mp3', function(req, res) {
     res.sendFile(path.join(__dirname + '/glass-ping.mp3'));
 });
 
-// app.get('/build/', function(req, res) {
-//     res.sendFile(path.join(__dirname + '/js/bundle.js'));
-// });
+app.get('/build/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/js/bundle.js'));
+});
+
+app.get('/styles.css', function(req, res) {
+    res.sendFile(path.join(__dirname + '/styles.css'));
+});
+
   //app.use((req, res) => res.sendFile(path.join(__dirname + '/index.html') )
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
