@@ -266,7 +266,7 @@ setComeUp(panel) {
   this.setState({showButtons:false});
     setTimeout((() => {this.setState({showButtons:true})}), vidDelays[panel]*1000);
   if (panel == FINAL_TOGETHER) {
-    setTimeout((() => {this.setState({finale:true})}), vidDelays[panel]*1000);
+    setTimeout((() => {this.setState({finale:true})}), 40000);
   }
 }
 
