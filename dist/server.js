@@ -16,7 +16,8 @@ const PORT = process.env.PORT || 3000;
 const io = socketIO(server);
 
 var state = {
-	population: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+	population: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  absolutePopulation:  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 }
 
 app.use(csp({
@@ -40,13 +41,13 @@ app.get('/js/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 });
 
-// app.get('/U.jpg', function(req, res) {
-//     res.sendFile(path.join(__dirname + '/U.jpg'));
-// });
-//
-// app.get('/O.jpg', function(req, res) {
-//     res.sendFile(path.join(__dirname + '/U.jpg'));
-// });
+app.get('/U.jpg', function(req, res) {
+    res.sendFile(path.join(__dirname + '/U.jpg'));
+});
+
+app.get('/O.jpg', function(req, res) {
+    res.sendFile(path.join(__dirname + '/O.jpg'));
+});
 
 app.get('/scanner-1.mp3', function(req, res) {
     res.sendFile(path.join(__dirname + '/scanner-1.mp3'));
@@ -88,6 +89,30 @@ app.get('/l-c-1.mp3', function(req, res) {
     res.sendFile(path.join(__dirname + '/l-c-1.mp3'));
 });
 
+app.get('/2.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/2.mp3'));
+});
+
+app.get('/3.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/3.mp3'));
+});
+
+app.get('/5.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/5.mp3'));
+});
+
+app.get('/6.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/6.mp3'));
+});
+
+app.get('/10.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/10.mp3'));
+});
+
+app.get('/11.mp3', function(req, res) {
+    res.sendFile(path.join(__dirname + '/11.mp3'));
+});
+
 app.get('/build/', function(req, res) {
     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 });
@@ -110,16 +135,40 @@ io.on('connection', (socket) => {
   socket.on('button press', () => {console.log('button signal'); io.emit('buttonsignal', new Date(), {for: 'everyone'});});
   socket.on('population update', (numberchange) => {
     console.log('population update');
-    if (numberchange < 0) {
+    if (numberchange == 50) {
+      state.population[0] = state.population[0] +1;
+    } else if (numberchange == -50) {
+      state.population[0] = state.population[0] -1;
+    } else if (numberchange < 0) {
       state.population[Math.abs(numberchange)] = state.population[Math.abs(numberchange)] - 1;
     } else {
       state.population[numberchange] = state.population[numberchange] + 1;
+      state.absolutePopulation[numberchange] = state.absolutePopulation[numberchange] + 1;
+    }
+    if (state.absolutePopulation[3] == 10) {
+      io.emit('crowdMessage', 3, {for:'everyone'});
+    }
+    if (state.absolutePopulation[2] == 10) {
+      io.emit('crowdMessage', 2, {for:'everyone'});
+    }
+    if (state.absolutePopulation[5] == 10) {
+      io.emit('crowdMessage', 5, {for:'everyone'});
+    }
+    if (state.absolutePopulation[6] == 10) {
+      io.emit('crowdMessage', 6, {for:'everyone'});
+    }
+    if (state.absolutePopulation[10] == 10) {
+      io.emit('crowdMessage', 10, {for:'everyone'});
+    }
+    if (state.absolutePopulation[11] == 10) {
+      io.emit('crowdMessage', 11, {for:'everyone'});
     }
   })
 });
 
 setInterval(() => io.emit('time', new Date(), {for: 'everyone'}), 500);
 setInterval(() => io.emit('population', state.population, {for: 'everyone'}), 500);
+setInterval(() => io.emit('absPopulation', state.absolutePopulation, {for: 'everyone'}), 500);
 
 
 
