@@ -25,6 +25,16 @@ function subscribeToPopulation(cb) {
   //socket.emit('subscribeToTimer', 1000);
 }
 
+function subscribeToAbsPopn(cb) {
+  socket.on('absPopulation', popn => cb(null, popn));
+  //socket.emit('subscribeToTimer', 1000);
+}
+
+function subscribeToCrowdMessage(cb) {
+  console.log('subscribe to crowd');
+  socket.on('crowdMessage', panel => cb(null, panel));
+}
+
 function updatePopulation(numberchange) {
   socket.emit('population update', numberchange);
   console.log('population update: ' + numberchange);
@@ -41,4 +51,4 @@ function pressButton() {
   console.log('button pressed!');
 }
 
-export { subscribeToTimer, subscribeToButton, subscribeToPopulation, updatePopulation, pressButton };
+export { subscribeToTimer, subscribeToAbsPopn, subscribeToButton, subscribeToCrowdMessage, subscribeToPopulation, updatePopulation, pressButton };

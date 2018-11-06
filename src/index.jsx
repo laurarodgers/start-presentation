@@ -7,6 +7,7 @@ import {Howl, Howler} from 'howler';
 import ReactHowler from 'react-howler';
 import Speech from 'react-speech';
 import './styles.css';
+//import Image from 'react-image-resizer';
 
 
 //"curve"
@@ -35,7 +36,7 @@ const prompts2BANK =
 
 //"compute"
 const prompts3LAPTOP =
-  ["qulunqa", "คำนวณ", "izračunati", "bereken", "गणना करना", "ማስላት", "مرکب", "пресмета", "laptop", "kiszámít"];
+  ["qulunqa", "คำนวณ", "izračunati", "bereken", "गणना करना", "ማስላት", "مرکب", "пресмета", "compute", "kiszámít"];
 
 //"take a break"
 const prompts3COFFEE =
@@ -51,18 +52,29 @@ const promptsTOGETHER =
 
 const vidDelays =
   [0, 0, 39, 35, 30, 34, 32, 38,
-   0, 0, 0, 0, 0, 0, 0];
+   0, 0, 36, 36, 32, 8, 8, 40];
+
+// const vidDelays = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 const bgsounds =
 ["../0917.mp3", "../0917.mp3", "../airport-security-1.mp3",
 "../dishwasher-2.mp3", "../scanner-1.mp3", "../airport-gate-1.mp3",
 "../restaurant-2.mp3", "..g-t-1.mp3", "../l-c-1.mp3",
-"../scanner-1.mp3", "../scanner-1.mp3", "../scanner-1.mp3",
-"../scanner-1.mp3", "../scanner-1.mp3", "../scanner-1.mp3", ];
+"../0917.mp3", "../airport-security-1.mp3", "../dishwasher-2.mp3",
+"../scanner-1.mp3", "../airport-gate-1.mp3", "../restaurant-2.mp3", "../g-t-1.mp3" ];
 
 const panelName =
-["BGNNR: ", "CRV: ", "LVTR: ", "CRVWSHRM: ", "CRVMNY: ", "CRVCMPTR: ", "CRVLKNG: ", "CRVCFF: ", "MTNG: ", "SPHR: ", "SPHRSTRS: ", "SPHRWSHRM: ", "SPHRMNY: ", "SPHRCMPTR: ", "SPHRCFF: ", "SPHRRL: "]
+["BGNNNG: ", "CRV: ", "CRVLVTR: ", "CRVWSHRM: ", "CRVMNY: ", "CRVCMPTR: ", "CRVLKNG: ", "CRVCFF: ", "MTNG: ", "SPHR: ", "SPHRSTRS: ", "SPHRWSHRM: ", "SPHRMNY: ", "SPHRCMPTR: ", "SPHRCFF: ", "SPHRRL: "]
 
+
+const fullPanelName =
+["BEGINNING: ", "CURVE: ", "CURVE ELEVATOR: ", "CURVE WASHROOM: ", "CURVE MONEY: ", "CURVE COMPUTER: ", "CURVE LOOKING: ", "CURVE COFFEE: ", "MEETING: ", "SPHERE: ", "SPHERE STAIRS: ", "SPHERE WASHROOM: ", "SPHERE MONEY: ", "SPHERE COMPUTER: ", "SPHERE COFFEE: ", "SPHERE ROLL: "]
+
+
+const crowdMessages =
+["../0917.mp3","../0917.mp3",
+"../2.mp3", "../3.mp3", "../0917.mp3", "../5.mp3", "../6.mp3", "../0917.mp3", "../0917.mp3", "../0917.mp3",
+"../10.mp3", "../11.mp3", "../0917.mp3","../0917.mp3","../0917.mp3","../0917.mp3","../0917.mp3"]
 // scenes:
 // opening
 const STARTSCREEN = 0;
@@ -109,8 +121,22 @@ class App extends React.Component {
       showButtons: true,
       mouseMoved: false,
       population: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      absPopulation: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      crowdMessagem2: false,
+      cm2Played: false,
+      crowdMessagem3: false,
+      cm3Played: false,
+      crowdMessagem5: false,
+      cm5Played: false,
+      crowdMessagem6: false,
+      cm6Played: false,
+      crowdMessagem10: false,
+      cm10Played: false,
+      crowdMessagem11: false,
+      cm11Played: false,
       promptA: 0,
       promptB: 0,
+      finale: false
 
     };
     this.audio = React.createRef();
@@ -129,15 +155,36 @@ componentDidMount() {
                                             this.playSound1();
                                             console.log('buttton callback!');})
 
-  api.subscribeToPopulation((err,population) => {this.setState({population});
-                                            console.log('population callback!');})
+  api.subscribeToPopulation((err,population) => {this.setState({population});});
 
- api.updatePopulation(STARTSCREEN);
+  api.subscribeToAbsPopn((err,absPopulation) => {this.setState({absPopulation});
+                                                console.log('absolute pop callback!');
+
+});
+
+  document.body.style.margin = 0;
+                                            //console.log('population callback!');})
+
+ api.updatePopulation(50);
+ api.subscribeToCrowdMessage((err,panel) => {
+                                            if (panel == 2 && this.state.cm2Played == false) {this.setState({crowdMessagem2: true, cm2Played: true});
+                                            setTimeout((() => {this.setState({crowdMessagem2: false})}), 2000);}
+                                            if (panel == 3 && this.state.cm3Played == false) {this.setState({crowdMessagem3: true, cm3Played: true});
+                                            setTimeout((() => {this.setState({crowdMessagem3: false})}), 2000);}
+                                            if (panel == 5 && this.state.cm5Played == false) {this.setState({crowdMessagem5: true, cm5Played: true});
+                                            setTimeout((() => {this.setState({crowdMessagem5: false})}), 2000);}
+                                            if (panel == 6  && this.state.cm6Played == false) {this.setState({crowdMessagem6: true, cm6Played: true});
+                                            setTimeout((() => {this.setState({crowdMessagem6: false})}), 2000);}
+                                            if (panel == 10  && this.state.cm10Played == false) {this.setState({crowdMessagem10: true, cm10Played: true});
+                                            setTimeout((() => {this.setState({crowdMessagem10: false})}), 2000);}
+                                            if (panel == 11  && this.state.cm11Played == false) {this.setState({crowdMessagem11: true, cm11Played: true});
+                                            setTimeout((() => {this.setState({crowdMessagem11: false})}), 2000);}
+                                           console.log('crowd message callback!' + panel);})
 }
 
 bgSound(){
   //console.log("establishig sound 1?");
-  console.log("bgsound");
+  //console.log("bgsound");
   return (
   <ReactHowler
         src={bgsounds[this.state.panel]}
@@ -149,6 +196,48 @@ bgSound(){
       />);}
 //onEnd={() => {this.setState({sound1playing:false})}}
 //ref={(ref) => {this.audio = ref;}}
+crowdMessages(){
+  //console.log("establishig sound 1?");
+  return (
+    <div>
+  <ReactHowler
+        src={crowdMessages[2]}
+        playing={this.state.crowdMessagem2}
+        preload={true}
+        loop={false}
+      />
+  <ReactHowler
+        src={crowdMessages[3]}
+        playing={this.state.crowdMessagem3}
+        preload={true}
+        loop={false}
+      />
+  <ReactHowler
+        src={crowdMessages[5]}
+        playing={this.state.crowdMessagem5}
+        preload={true}
+        loop={false}
+      />
+  <ReactHowler
+        src={crowdMessages[6]}
+        playing={this.state.crowdMessagem6}
+        preload={true}
+        loop={false}
+      />
+  <ReactHowler
+        src={crowdMessages[10]}
+        playing={this.state.crowdMessagem10}
+        preload={true}
+        loop={false}
+      />
+  <ReactHowler
+        src={crowdMessages[11]}
+        playing={this.state.crowdMessagem11}
+        preload={true}
+        loop={false}
+      />
+  </div>
+);}
 
 sound1(){
   //console.log("establishig sound 1?");
@@ -176,6 +265,37 @@ setComeUp(panel) {
   console.log('setting comeup');
   this.setState({showButtons:false});
     setTimeout((() => {this.setState({showButtons:true})}), vidDelays[panel]*1000);
+  if (panel == FINAL_TOGETHER) {
+    setTimeout((() => {this.setState({finale:true})}), 40000);
+  }
+}
+
+renderFinale() {
+  console.log("in rendering finale");
+  if (this.state.finale) {
+    console.log("RENDERING FINALE? " + this.state.absPopulation);
+    window.Howler.mute(true);
+    let populationString = "EYEBALLS: \n";
+    for (var i = 0; i < 16; i++) {
+          if (this.state.absPopulation[i] > 0) {
+            if (i == 13) {
+              populationString = populationString + 'SPHERE ALONE: ' + (this.state.absPopulation[i] + this.state.absPopulation[i+1]) +  "\n";
+              i = i + 1;
+            }
+            else {
+          populationString = populationString + fullPanelName[i] + this.state.absPopulation[i] + "\n";}
+        }}
+    return(
+      <div className="FinaleBG">
+        <p class="FinaleText">
+          {populationString}
+        </p>
+      </div>
+    );
+  }
+  else {
+    return(<div/>);
+  }
 }
 
 buttons() {
@@ -190,7 +310,7 @@ buttons() {
           <div className="ButtonDivLeft">
             <button className='NavButton'
               onClick={() => {api.pressButton();
-                              api.updatePopulation(-STARTSCREEN);
+                              api.updatePopulation(-50);
                               api.updatePopulation(U_0OPEN);
                               this.setState({panel: U_0OPEN});
                               this.setComeUp(U_0OPEN);
@@ -204,8 +324,8 @@ buttons() {
          <div className="ButtonDivRight">
            <button className='NavButton'
              onClick={() => {api.pressButton();
-                             api.updatePopulation(-STARTSCREEN);
-                             api.updatePopulation(U_0OPEN);
+                             api.updatePopulation(-50);
+                             api.updatePopulation(O_0OPEN);
                              this.setState({panel: O_0OPEN});
                              this.setComeUp(O_0OPEN);
                              this.changePrompts();
@@ -280,42 +400,42 @@ buttons() {
       </div>
       );
       case U_2BANK:
-      return (
-        <div>
-      <div className="ButtonDivLeft">
-        <button className='NavButton'
-          onClick={() => {api.pressButton();
-                          api.updatePopulation(-U_2BANK);
-                          api.updatePopulation(U_3LAPTOP);
-                          this.setState({panel: U_3LAPTOP});
-                          this.setComeUp(U_3LAPTOP);
-                          this.changePrompts();
-                          this.playSound1();
+          return (
+            <div>
+          <div className="ButtonDivLeft">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-U_2BANK);
+                              api.updatePopulation(U_3LAPTOP);
+                              this.setState({panel: U_3LAPTOP});
+                              this.setComeUp(U_3LAPTOP);
+                              this.changePrompts();
+                              this.playSound1();
 
-                        }}>
-                        {prompts3LAPTOP[this.state.promptA]}
-       </button></div>
-     <div className="ButtonDivRight">
-       <button className='NavButton'
-         onClick={() => {api.pressButton();
-                         api.updatePopulation(-U_2BANK);
-                         api.updatePopulation(U_3COFFEE);
-                         this.setState({panel: U_3COFFEE});
-                         this.setComeUp(U_3COFFEE);
-                         this.changePrompts();
-                         this.playSound1();
+                            }}>
+                            {prompts3LAPTOP[this.state.promptA]}
+           </button></div>
+         <div className="ButtonDivRight">
+           <button className='NavButton'
+             onClick={() => {api.pressButton();
+                             api.updatePopulation(-U_2BANK);
+                             api.updatePopulation(U_3COFFEE);
+                             this.setState({panel: U_3COFFEE});
+                             this.setComeUp(U_3COFFEE);
+                             this.changePrompts();
+                             this.playSound1();
 
-                       }}>
-                       {prompts3COFFEE[this.state.promptB]}
-      </button>
-    </div></div>
-      );
+                           }}>
+                           {prompts3COFFEE[this.state.promptB]}
+          </button>
+        </div></div>
+          );
       case U_3COFFEE:
         return (
           <div className="ButtonDiv">
             <button className='NavButton'
               onClick={() => {api.pressButton();
-                              api.updatePopulation(-U_3BANK);
+                              api.updatePopulation(-U_3COFFEE);
                               api.updatePopulation(U_4WALK);
                               this.setState({panel: U_4WALK});
                               this.setComeUp(U_4WALK);
@@ -361,12 +481,140 @@ buttons() {
            </button>
         </div>
         );
+      case O_0OPEN:
+            return (
+              <div>
+            <div className="ButtonDivLeft">
+              <button className='NavButton'
+                onClick={() => {api.pressButton();
+                                api.updatePopulation(-O_0OPEN);
+                                api.updatePopulation(O_1STAIRS);
+                                this.setState({panel: O_1STAIRS});
+                                this.setComeUp(O_1STAIRS);
+                                this.changePrompts();
+                                this.playSound1();
+
+                              }}>
+                              {prompts1STAIRS[this.state.promptA]}
+             </button></div>
+           <div className="ButtonDivRight">
+             <button className='NavButton'
+               onClick={() => {api.pressButton();
+                               api.updatePopulation(-O_0OPEN);
+                               api.updatePopulation(O_1WASHROOM);
+                               this.setState({panel: O_1WASHROOM});
+                               this.setComeUp(O_1WASHROOM);
+                               this.changePrompts();
+                               this.playSound1();
+
+                             }}>
+                             {prompts1WASHROOM[this.state.promptB]}
+            </button>
+          </div></div>
+            );
+      case O_1STAIRS:
+        return (
+          <div className="ButtonDiv">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-O_1STAIRS);
+                              api.updatePopulation(O_2BANK);
+                              this.setState({panel: O_2BANK});
+                              this.setComeUp(O_2BANK);
+                              this.changePrompts();
+                              this.playSound1();
+                            }}>
+                            {prompts2BANK[this.state.promptA]}
+           </button>
+        </div>
+        );
+      case O_1WASHROOM:
+        return (
+          <div className="ButtonDiv">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-O_1WASHROOM);
+                              api.updatePopulation(O_2BANK);
+                              this.setState({panel: O_2BANK});
+                              this.setComeUp(O_2BANK);
+                              this.changePrompts();
+                              this.playSound1();
+                            }}>
+                            {prompts2BANK[this.state.promptA]}
+           </button>
+        </div>
+        );
+      case O_2BANK:
+          return (
+            <div>
+          <div className="ButtonDivLeft">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-O_2BANK);
+                              api.updatePopulation(O_3LAPTOP);
+                              this.setState({panel: O_3LAPTOP});
+                              this.setComeUp(O_3LAPTOP);
+                              this.changePrompts();
+                              this.playSound1();
+
+                            }}>
+                            {prompts3LAPTOP[this.state.promptA]}
+           </button></div>
+         <div className="ButtonDivRight">
+           <button className='NavButton'
+             onClick={() => {api.pressButton();
+                             api.updatePopulation(-O_2BANK);
+                             api.updatePopulation(O_3COFFEE);
+                             this.setState({panel: O_3COFFEE});
+                             this.setComeUp(O_3COFFEE);
+                             this.changePrompts();
+                             this.playSound1();
+
+                           }}>
+                           {prompts3COFFEE[this.state.promptB]}
+          </button>
+        </div></div>
+          );
+      case O_3LAPTOP:
+        return (
+          <div className="ButtonDiv">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-O_3LAPTOP);
+                              api.updatePopulation(O_4WALK);
+                              this.setState({panel: O_4WALK});
+                              this.setComeUp(O_4WALK);
+                              this.changePrompts();
+                              this.playSound1();
+
+                            }}>
+                            {prompts4WALK[this.state.promptA]}
+           </button>
+        </div>
+        );
+      case O_3COFFEE:
+        return (
+          <div className="ButtonDiv">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-O_3COFFEE);
+                              api.updatePopulation(O_4WALK);
+                              this.setState({panel: O_4WALK});
+                              this.setComeUp(O_4WALK);
+                              this.changePrompts();
+                              this.playSound1();
+
+                            }}>
+                            {prompts4WALK[this.state.promptA]}
+           </button>
+        </div>
+        );
       case O_4WALK:
       return (
         <div className="ButtonDiv">
           <button className='NavButton'
             onClick={() => {api.pressButton();
-                            api.updatePopulation(-U_4WALK);
+                            api.updatePopulation(-O_4WALK);
                             api.updatePopulation(FINAL_TOGETHER);
                             this.setState({panel: FINAL_TOGETHER});
                             this.setComeUp(FINAL_TOGETHER);
@@ -394,9 +642,15 @@ changePrompts() {
 
 PopulationText() {
   let populationString = "PPLTN: \n";
-  for (var i = 0; i < 15; i++) {
+  for (var i = 0; i < 16; i++) {
         if (this.state.population[i] > 0) {
-        populationString = populationString + panelName[i] + this.state.population[i] + "\n";
+          if (i == 13) {
+            let totalNum = this.state.population[i] + this.state.population[i+1];
+            populationString = populationString + 'SPHRALN: ' + totalNum +  "\n";
+            i = i + 1;
+          }
+          else {
+        populationString = populationString + panelName[i] + this.state.population[i] + "\n";}
       }
     }
 
@@ -495,17 +749,15 @@ videoPanel() {
     case STARTSCREEN:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <p className="MessageText">
-            This is the start.
-          </p>
         </div>
       );
     case U_0OPEN:
       return (
-        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <p className="MessageText">
-            U
-          </p>
+        <div onMouseMove={(e) => this.handleMouseMove(e)}>
+          <img
+          src="../U.jpg"
+          className="TitleImage"
+        />
         </div>
       );
     case U_1STAIRS:
@@ -546,45 +798,53 @@ videoPanel() {
       );
     case O_0OPEN:
       return (
-        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <p className="MessageText">
-            O
-          </p>
+        <div onMouseMove={(e) => this.handleMouseMove(e)}>
+          <img
+          src="../O.jpg"
+          className="TitleImage"
+        />
         </div>
       );
     case O_1STAIRS:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/709ddeb0181ae1c0f8/abd20eceba2243cb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_1WASHROOM:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/e89ddeb0181ae6c960/67b2897ce9c0de38?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_2BANK:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9ddeb0181beac594/668a5aae7aec1d99?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_3LAPTOP:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9ddeb01818e1cd94/38f18e8204d400eb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_3COFFEE:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9ddeb01818e1cd94/38f18e8204d400eb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_4WALK:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/4c9ddeb01819e0c1c4/1d463b38ab4acaf2?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437'  className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case FINAL_TOGETHER:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/e89ddeb01819e1cd60/73434e38189ed8b6?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
   }
@@ -708,11 +968,13 @@ render() {
   return (
     <div className="App">
       <div className='PageBG' onMouseMove={(e) => this.handleMouseMove(e)}></div>
+      {this.renderFinale()}
       <p className="TitleText">
         {this.TimeText()}
         </p>
       {this.bgSound()}
       {this.sound1()}
+      {this.crowdMessages()}
       {this.PopulationText()}
       {this.videoPanel()}
       {this.buttons()}

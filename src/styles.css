@@ -38,6 +38,34 @@
   z-index: -5
 }
 
+.FinaleBG {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #232323;
+  text-align: center;
+  z-index: 50
+}
+
+.FinaleText {
+  position: absolute;
+  font-size: 32px;
+  font-family: 'VT323', monospace;
+  color: #FFFFFF;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 60;
+  text-shadow:
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+  white-space: pre-wrap
+}
+
 .TitleText {
   position: absolute;
   font-size: 32px;
@@ -117,6 +145,16 @@
   transform: translate(-100%, -100%);
   top: 100%;
   text-align: right;
+}
+
+.TitleImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  top: 0; /* you can use % */
+  height: 100vh;
+  padding: 0px 0px 0px 0px;
 }
 
 .NavButton {
