@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
 .PageBG {
   position: absolute;
   width: 100vw;
@@ -10,21 +12,53 @@
 }
 
 .TitleText {
-  position: relative;
+  position: absolute;
+  font-size: 32px;
+  font-family: 'VT323', monospace;
+  color: #FFFFFF;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  z-index: 45;
+  text-shadow:
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+}
+
+.MessageText {
+  position: absolute;
   font-size: 32px;
   font-family: Helvetica, Verdana, sans-serif;
-  color: #FFFFFF;
+  color: #000000;
+  top: 0%;
+  left: 100%;
+  transform: translate(-100%, -100%);
   z-index: 45;
-  text-align: center
 }
 
 .VidDiv {
+  z-index: 0;
+  text-align: center;
+  position: fixed;
+  padding-bottom: 56.25%
+}
+
+.VidStyle {
+  position:fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top:0
+}
+
+.ButtonDiv {
   z-index: 5;
   text-align: center
 }
 
-
-.CheckButton {
+.NavButton {
   position: relative;
   background-color: #444444;
   text-align: center;
@@ -37,12 +71,12 @@
   margin-top:60px;
 }
 
-.CheckButton:hover {
+.NavButton:hover {
   background-color: #333333;
   cursor: pointer;
 }
 
-.CheckButton:focus {
+.NavButton:focus {
   outline: 0;
 }
 
@@ -57,8 +91,6 @@ vertical-align: middle;
 color: #FA0505;
 font-style: italic;
 }
-
-
 
 
 .ListSubmitDiv {

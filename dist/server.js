@@ -15,13 +15,15 @@ const PORT = process.env.PORT || 3000;
 //const INDEX = path.join(__dirname, 'index.html');
 const io = socketIO(server);
 
+
+
 app.use(csp({
     policies: {
         'reportOnly' : true,
-        'default-src': [csp.SELF, csp.INLINE, 'videos.sproutvideo.com', 'https:'],
+        'default-src': [csp.SELF, csp.INLINE, 'videos.sproutvideo.com', 'fonts.googleapis.com', 'https:'],
         'script-src': [csp.SELF, csp.INLINE, 'sproutvideo.com', 'laurarodgers.com'],
         'media-src' : [csp.SELF, csp.INLINE, 'sproutvideo.com'],
-        'style-src': [csp.SELF, csp.INLINE, 'sproutvideo.com', 'laurarodgers.com'],
+        'style-src': [csp.SELF, csp.INLINE, 'fonts.googleapis.com', 'sproutvideo.com', 'laurarodgers.com'],
         'img-src': [csp.SELF, csp.INLINE, 'sproutvideo.com', 'https:', 'laurarodgers.com'],
         'worker-src': [csp.NONE],
         'block-all-mixed-content': false,
@@ -36,8 +38,12 @@ app.get('/js/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/js/bundle.js'));
 });
 
-app.get('/kiss.jpg', function(req, res) {
-    res.sendFile(path.join(__dirname + '/kiss.jpg'));
+app.get('/U.jpg', function(req, res) {
+    res.sendFile(path.join(__dirname + '/U.jpg'));
+});
+
+app.get('/O.jpg', function(req, res) {
+    res.sendFile(path.join(__dirname + '/U.jpg'));
 });
 
 app.get('/glass-ping.mp3', function(req, res) {
