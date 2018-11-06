@@ -69,12 +69,13 @@
   position: absolute;
   font-size: 10px;
   font-family: monospace;
-  width: 66px;
+  width: 100px;
   text-align: left;
   color: #FFFFFF;
   bottom: 0;
   left: 0;
   z-index: 45;
+  white-space: pre-wrap
 }
 
 .VidDiv {
