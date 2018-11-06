@@ -1,7 +1,34 @@
 @import url('https://fonts.googleapis.com/css?family=VT323');
 
-.PageBG {
+.TimedelayText {
   position: absolute;
+  font-size: 32px;
+  font-family: 'VT323', monospace;
+  color: #FFFFFF;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  z-index: 45;
+  text-shadow:
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+  -webkit-animation: myanim 30s ease 5s;
+}
+
+@-webkit-keyframes myanim {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.PageBG {
+  position: fixed;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -38,6 +65,18 @@
   z-index: 45;
 }
 
+.PopulationPrintout {
+  position: absolute;
+  font-size: 10px;
+  font-family: monospace;
+  width: 66px;
+  text-align: left;
+  color: #FFFFFF;
+  bottom: 0;
+  left: 0;
+  z-index: 45;
+}
+
 .VidDiv {
   z-index: 0;
   text-align: center;
@@ -54,25 +93,51 @@
 }
 
 .ButtonDiv {
+  position: absolute;
   z-index: 5;
-  text-align: center
+  left: 50%;
+  transform: translate(-50%, -100%);
+  top: 100%;
+}
+
+.ButtonDivLeft {
+  position: absolute;
+  z-index: 5;
+  left: 20%;
+  transform: translate(-0%, -100%);
+  top: 100%;
+  text-align: left;
+}
+
+.ButtonDivRight {
+  position: absolute;
+  z-index: 5;
+  left: 80%;
+  transform: translate(-100%, -100%);
+  top: 100%;
+  text-align: right;
 }
 
 .NavButton {
   position: relative;
-  background-color: #444444;
-  text-align: center;
-  border: none;
+  font-family: 'VT323', monospace;
   color: #FFFFFF;
+  z-index: 45;
+  text-shadow:
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+  background-color: Transparent;
+  border: none;
   font-size: 28px;
-  font-family: Helvetica, Verdana, sans-serif;
-  margin-left: 0px;
+  margin-left: 20px;
   margin-right: 20px;
-  margin-top:60px;
+  margin-top:20px;
+  margin-bottom: 20px
 }
 
 .NavButton:hover {
-  background-color: #333333;
   cursor: pointer;
 }
 

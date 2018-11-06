@@ -5,16 +5,18 @@ import * as api from './api';
 //import soundfile from '../assets/glass-ping.mp3';
 import {Howl, Howler} from 'howler';
 import ReactHowler from 'react-howler';
-import Image from 'react-image-resizer';
+import Speech from 'react-speech';
 import './styles.css';
 
 
-
+//"curve"
 const prompts0U =
-  ["U","U","U","U","U","U","U","U","U","U"];
+  ["ויסבייג","puri","ខ្សែកោង","kurva","կորի","වක්රය","çûvelan","usoro","వక్రత","curve"];
 
+//"sphere"
 const prompts0O =
-  ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"];
+  ["Ayika", "جسم كروى", "sfera", "sphaera", "sohada", "kúla", "구체", "avanoa", "соҳа", "küre"];
+
 // "relieve yourself"
 const prompts1WASHROOM =
   ["lehtëso veten", "zvigadzirire iwe pachako",
@@ -23,23 +25,43 @@ const prompts1WASHROOM =
   "너 자신을 풀어 라.", "پنهنجو پاڻ کي رهو",
   "daws koj tus kheej", "באַפרייַען זיך"];
 
+//"change elevation"
 const prompts1STAIRS =
-  ["stairs", "stairs", "stairs", "stairs", "stairs", "stairs", "stairs", "stairs", "stairs", "stairs"];
+  ["yükseklik değiştirmek", "高度を変更する", "ປ່ຽນຄວາມສູງ", "bidla fl-elevazzjoni", "ከፍታ ይለውጡ", "mainīt augstumu", "athrú ingearchló", "canvia l'elevació", "miova ny elevation", "änneren"];
 
+//"get money"
 const prompts2BANK =
-  ["bank", "bank", "bank", "bank", "bank", "bank", "bank", "bank", "bank", "bank"];
+  ["Geld kritt", "ստանալ գումար", "پئسا وٺ", "получать деньги", "kupeza ndalama", "بدست آوردن پول", "hel lacag", "ਪੈਸੇ ਕਮਾਓ", "nhận tiền", "fumana imali"];
 
+//"compute"
 const prompts3LAPTOP =
-  ["laptop", "laptop", "laptop", "laptop", "laptop", "laptop", "laptop", "laptop", "laptop", "laptop"];
+  ["qulunqa", "คำนวณ", "izračunati", "bereken", "गणना करना", "ማስላት", "مرکب", "пресмета", "laptop", "kiszámít"];
 
+//"take a break"
 const prompts3COFFEE =
-  ["coffee", "coffee", "coffee", "coffee", "coffee", "coffee", "coffee", "coffee", "coffee", "coffee"];
+  ["szünetet tartani", "gabh fois", "направи паузу", "phumula", "សំរាក", "завсарлага авах", "ഒരു ഇടവേള എടുക്കുക", "magpahinga", "magpahinga", "taka hlé"];
 
+//"go there"
 const prompts4WALK =
-  ["walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk"];
+  ["Farðu þangað", "저기로가", "vai lì", "అక్కడికి వెళ్ళు", "falbh an sin", "Pojdi tja", "mine sinna", "pitani kumeneko", "go there", "nenda pale"];
 
+//"find them"
 const promptsTOGETHER =
-  ["together", "together", "together", "together", "together", "together", "together", "together", "together", "together"];
+  ["онҳоро пайдо кунед", "trovali", "goleki", "e huli iā lākou", "ಅವರನ್ನು ಹುಡುಕಿ", "Nájdi ich", "hitta dem", "Encuéntralos", "ba fumane", "それらを見つけます"];
+
+const vidDelays =
+  [0, 0, 39, 35, 30, 34, 32, 38,
+   0, 0, 0, 0, 0, 0, 0];
+
+const bgsounds =
+["../0917.mp3", "../0917.mp3", "../airport-security-1.mp3",
+"../dishwasher-2.mp3", "../scanner-1.mp3", "../airport-gate-1.mp3",
+"../restaurant-2.mp3", "..g-t-1.mp3", "../l-c-1.mp3",
+"../scanner-1.mp3", "../scanner-1.mp3", "../scanner-1.mp3",
+"../scanner-1.mp3", "../scanner-1.mp3", "../scanner-1.mp3", ];
+
+const panelName =
+["BGNNR: ", "CRV: ", "LVTR: ", "CRVWSHRM: ", "CRVMNY: ", "CRVCMPTR: ", "CRVLKNG: ", "CRVCFF: ", "MTNG: ", "SPHR: ", "SPHRSTRS: ", "SPHRWSHRM: ", "SPHRMNY: ", "SPHRCMPTR: ", "SPHRCFF: ", "SPHRRL: "]
 
 // scenes:
 // opening
@@ -76,30 +98,60 @@ class App extends React.Component {
     super(props);
     this.state = {
       // time sent from server
-      timestamp: '',
+      timestamp: new Date(),
+      //last time this user pressed button
       // time anyone last pressed button
       buttonTimestamp: '',
       // active video panel
       panel: STARTSCREEN,
       // control of bell (pinged for global buttonpress)
       sound1playing: false,
+      showButtons: true,
+      mouseMoved: false,
+      population: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       promptA: 0,
       promptB: 0,
+
     };
     this.audio = React.createRef();
 }
 
 componentDidMount() {
   api.subscribeToTimer((err, timestamp) => {this.setState({timestamp});
-                                            console.log('time callback!');});
+                                            if (this.state.mouseMoved) {
+                                              this.changePrompts();
+                                              this.setState({mouseMoved: false});
+                                            }
+                                            //console.log('time callback!')
+                                            });
 
   api.subscribeToButton((err,buttonTimestamp) => {this.setState({buttonTimestamp});
                                             this.playSound1();
                                             console.log('buttton callback!');})
+
+  api.subscribeToPopulation((err,population) => {this.setState({population});
+                                            console.log('population callback!');})
+
+ api.updatePopulation(STARTSCREEN);
 }
 
+bgSound(){
+  //console.log("establishig sound 1?");
+  console.log("bgsound");
+  return (
+  <ReactHowler
+        src={bgsounds[this.state.panel]}
+        playing={true}
+        preload={true}
+        loop={true}
+        ref="bgsound"
+
+      />);}
+//onEnd={() => {this.setState({sound1playing:false})}}
+//ref={(ref) => {this.audio = ref;}}
+
 sound1(){
-  console.log("establishig sound 1?");
+  //console.log("establishig sound 1?");
   return (
   <ReactHowler
         src="../glass-ping.mp3"
@@ -112,140 +164,279 @@ sound1(){
       />);}
 
 
-      playSound1() {
-        console.log("playing sound 1?");
-        console.log(this.audio.howler.state());
-        this.setState({sound1playing: true});
-        this.audio.howler.play();
-        //this.setState({sound1playing: true});
-      }
+playSound1() {
+  console.log("playing sound 1?");
+  console.log(this.audio.howler.state());
+  this.setState({sound1playing: true});
+  this.audio.howler.play();
+  //this.setState({sound1playing: true});
+}
+
+setComeUp(panel) {
+  console.log('setting comeup');
+  this.setState({showButtons:false});
+    setTimeout((() => {this.setState({showButtons:true})}), vidDelays[panel]*1000);
+}
 
 buttons() {
   // which button do you want
-  console.log("in buttons");
-  switch(this.state.panel) {
-    case STARTSCREEN:
-      return (
-        <div className="ButtonDiv">
+  //console.log("in buttons");
+  if (this.state.showButtons) {
+    //console.log('showing buttons');
+    switch(this.state.panel) {
+      case STARTSCREEN:
+        return (
+          <div>
+          <div className="ButtonDivLeft">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-STARTSCREEN);
+                              api.updatePopulation(U_0OPEN);
+                              this.setState({panel: U_0OPEN});
+                              this.setComeUp(U_0OPEN);
+                              this.changePrompts();
+                              this.playSound1();
+
+
+                            }}>
+                            {prompts0U[this.state.promptA]}
+           </button></div>
+         <div className="ButtonDivRight">
+           <button className='NavButton'
+             onClick={() => {api.pressButton();
+                             api.updatePopulation(-STARTSCREEN);
+                             api.updatePopulation(U_0OPEN);
+                             this.setState({panel: O_0OPEN});
+                             this.setComeUp(O_0OPEN);
+                             this.changePrompts();
+                             this.playSound1();
+
+                           }}>
+                           {prompts0O[this.state.promptB]}
+          </button>
+        </div></div>
+        );
+      case U_0OPEN:
+        return (
+          <div>
+        <div className="ButtonDivLeft">
           <button className='NavButton'
             onClick={() => {api.pressButton();
-                            this.setState({panel: U_0OPEN});
-                            this.changepromptA();
+                            api.updatePopulation(-U_0OPEN);
+                            api.updatePopulation(U_1STAIRS);
+                            this.setState({panel: U_1STAIRS});
+                            this.setComeUp(U_1STAIRS);
+                            this.changePrompts();
                             this.playSound1();
+
                           }}>
-                          {prompts0U[this.state.promptA]}
-         </button>
+                          {prompts1STAIRS[this.state.promptA]}
+         </button></div>
+       <div className="ButtonDivRight">
          <button className='NavButton'
            onClick={() => {api.pressButton();
-                           this.setState({panel: O_0OPEN});
-                           this.changepromptB();
+                           api.updatePopulation(-U_0OPEN);
+                           api.updatePopulation(U_1WASHROOM);
+                           this.setState({panel: U_1WASHROOM});
+                           this.setComeUp(U_1WASHROOM);
+                           this.changePrompts();
                            this.playSound1();
+
                          }}>
-                         {prompts0O[this.state.promptB]}
+                         {prompts1WASHROOM[this.state.promptB]}
         </button>
-      </div>
-      );
-    case U_0OPEN:
-      return (
-      <div className="ButtonDiv">
-        <button className='NavButton'
-          onClick={() => {api.pressButton();
-                          this.setState({panel: U_1STAIRS});
-                          this.changepromptA();
-                          this.playSound1();
-                        }}>
-                        {prompts1STAIRS[this.state.promptA]}
-       </button>
-       <button className='NavButton'
-         onClick={() => {api.pressButton();
-                         this.setState({panel: U_1WASHROOM});
-                         this.changepromptB();
-                         this.playSound1();
-                       }}>
-                       {prompts1WASHROOM[this.state.promptB]}
-      </button>
-    </div>
-      );
-    case U_1STAIRS:
-    case U_1WASHROOM:
+      </div></div>
+        );
+      case U_1STAIRS:
+        return (
+          <div className="ButtonDiv">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-U_1STAIRS);
+                              api.updatePopulation(U_2BANK);
+                              this.setState({panel: U_2BANK});
+                              this.setComeUp(U_2BANK);
+                              this.changePrompts();
+                              this.playSound1();
+                            }}>
+                            {prompts2BANK[this.state.promptA]}
+           </button>
+        </div>
+        );
+      case U_1WASHROOM:
       return (
         <div className="ButtonDiv">
           <button className='NavButton'
             onClick={() => {api.pressButton();
+                            api.updatePopulation(-U_1WASHROOM);
+                            api.updatePopulation(U_2BANK);
                             this.setState({panel: U_2BANK});
-                            this.changepromptA();
+                            this.setComeUp(U_2BANK);
+                            this.changePrompts();
                             this.playSound1();
                           }}>
                           {prompts2BANK[this.state.promptA]}
          </button>
       </div>
       );
-    case U_2BANK:
-    return (
-    <div className="ButtonDiv">
-      <button className='NavButton'
-        onClick={() => {api.pressButton();
-                        this.setState({panel: U_3LAPTOP});
-                        this.changepromptA();
-                        this.playSound1();
-                      }}>
-                      {prompts3LAPTOP[this.state.promptA]}
-     </button>
-     <button className='NavButton'
-       onClick={() => {api.pressButton();
-                       this.setState({panel: U_3COFFEE});
-                       this.changepromptB();
-                       this.playSound1();
-                     }}>
-                     {prompts3COFFEE[this.state.promptB]}
-    </button>
-  </div>
-    );
-    case U_3COFFEE:
-    case U_3LAPTOP:
+      case U_2BANK:
+      return (
+        <div>
+      <div className="ButtonDivLeft">
+        <button className='NavButton'
+          onClick={() => {api.pressButton();
+                          api.updatePopulation(-U_2BANK);
+                          api.updatePopulation(U_3LAPTOP);
+                          this.setState({panel: U_3LAPTOP});
+                          this.setComeUp(U_3LAPTOP);
+                          this.changePrompts();
+                          this.playSound1();
+
+                        }}>
+                        {prompts3LAPTOP[this.state.promptA]}
+       </button></div>
+     <div className="ButtonDivRight">
+       <button className='NavButton'
+         onClick={() => {api.pressButton();
+                         api.updatePopulation(-U_2BANK);
+                         api.updatePopulation(U_3COFFEE);
+                         this.setState({panel: U_3COFFEE});
+                         this.setComeUp(U_3COFFEE);
+                         this.changePrompts();
+                         this.playSound1();
+
+                       }}>
+                       {prompts3COFFEE[this.state.promptB]}
+      </button>
+    </div></div>
+      );
+      case U_3COFFEE:
+        return (
+          <div className="ButtonDiv">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-U_3BANK);
+                              api.updatePopulation(U_4WALK);
+                              this.setState({panel: U_4WALK});
+                              this.setComeUp(U_4WALK);
+                              this.changePrompts();
+                              this.playSound1();
+
+                            }}>
+                            {prompts4WALK[this.state.promptA]}
+           </button>
+        </div>
+        );
+      case U_3LAPTOP:
       return (
         <div className="ButtonDiv">
           <button className='NavButton'
             onClick={() => {api.pressButton();
+                            api.updatePopulation(-U_3LAPTOP);
+                            api.updatePopulation(U_4WALK);
                             this.setState({panel: U_4WALK});
-                            this.changepromptA();
+                            this.setComeUp(U_4WALK);
+                            this.changePrompts();
                             this.playSound1();
+
                           }}>
                           {prompts4WALK[this.state.promptA]}
          </button>
       </div>
       );
-    case U_4WALK:
-    case O_4WALK:
+      case U_4WALK:
+        return (
+          <div className="ButtonDiv">
+            <button className='NavButton'
+              onClick={() => {api.pressButton();
+                              api.updatePopulation(-U_4WALK);
+                              api.updatePopulation(FINAL_TOGETHER);
+                              this.setState({panel: FINAL_TOGETHER});
+                              this.setComeUp(FINAL_TOGETHER);
+                              this.changePrompts();
+                              this.playSound1();
+
+                            }}>
+                            {promptsTOGETHER[this.state.promptA]}
+           </button>
+        </div>
+        );
+      case O_4WALK:
       return (
         <div className="ButtonDiv">
           <button className='NavButton'
             onClick={() => {api.pressButton();
+                            api.updatePopulation(-U_4WALK);
+                            api.updatePopulation(FINAL_TOGETHER);
                             this.setState({panel: FINAL_TOGETHER});
-                            this.changepromptA();
+                            this.setComeUp(FINAL_TOGETHER);
+                            this.changePrompts();
                             this.playSound1();
+
                           }}>
                           {promptsTOGETHER[this.state.promptA]}
          </button>
       </div>
       );
-    case FINAL_TOGETHER:
-      return (<div/>);
+      case FINAL_TOGETHER:
+        return (<div/>);
+    }
+  }
+  else {
+    return (<div/>);
   }
 }
 
-changepromptA() {
+changePrompts() {
   this.setState({promptA: Math.floor((Math.random() * 10))});
+  this.setState({promptB: Math.floor((Math.random() * 10))});
 }
 
-changepromptB() {
-  this.setState({promptB: Math.floor((Math.random() * 10))});
+PopulationText() {
+  let populationString = "PPLTN: \n";
+  for (var i = 0; i < 15; i++) {
+        if (this.state.population[i] > 0) {
+        populationString = populationString + panelName[i] + this.state.population[i] + "\n";
+      }
+    }
+
+  return (
+    <div>
+      <p className="PopulationPrintout">
+        {populationString}
+      </p>
+    </div>
+  )
 }
 
 TimeText() {
     if (this.state.buttonTimestamp != '') {
+      //console.log('button timestamp: '+ this.state.buttonTimestamp);
+      let date = new Date(this.state.buttonTimestamp);
+      let ref_date = new Date();
+      let diff_date = ref_date-date;
+      //console.log('diff date: '+ diff_date);
+      let hours = Math.floor(diff_date/3600000);
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
+      let mins = Math.floor((diff_date-hours*3600000)/60000);
+      if (mins < 10) {
+        mins = "0" + mins;
+      }
+      let secs = Math.floor((diff_date-hours*3600000-mins*60000)/1000);
+      if (secs < 10) {
+        secs = "0" + secs;
+      }
       return (
-        this.humanized_time_span(this.state.buttonTimestamp)
+        hours + ":" + mins + ":" + secs
+      //()=>{dateFormat(diff_date, "hh:MM:ss")};
+        //ref_date = ref_date ? new Date(ref_date) : new Date();
+
+
+
+        //this.humanized_time_span(this.state.buttonTimestamp)
+
         // new Date(this.state.buttonTimestamp).toLocaleString('en-US', {
         //         weekday: 'short',
         //         month: 'short',
@@ -261,29 +452,49 @@ TimeText() {
       );
   }
   else if (this.state.timestamp != '') {
-    return (
-      new Date(this.state.timestamp).toLocaleString('en-US', {
-              weekday: 'short',
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-              second: 'numeric',
-              hour12: true,
-              timeZoneName: 'short'
-            }).toLowerCase()
-      ); }
+      let date = new Date(this.state.timestamp);
+      //console.log('diff date: '+ diff_date);
+      let hours = Math.floor(date/3600000);
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
+      let mins = Math.floor((date-hours*3600000)/60000);
+      if (mins < 10) {
+        mins = "0" + mins;
+      }
+      let secs = Math.floor((date-hours*3600000-mins*60000)/1000);
+      if (secs < 10) {
+        secs = "0" + secs;
+      }
+      return (
+      "00:" + mins + ":" + secs);
+      // new Date(this.state.timestamp).toLocaleString('en-US', {
+      //   hour: 'numeric',
+      //   minute: 'numeric',
+      //   second: 'numeric',
+      //   hour12: true
+      }
+      // new Date(this.state.timestamp).toLocaleString('en-US', {
+      //         weekday: 'short',
+      //         month: 'short',
+      //         day: 'numeric',
+      //         year: 'numeric',
+      //         hour: 'numeric',
+      //         minute: 'numeric',
+      //         second: 'numeric',
+      //         hour12: true,
+      //         timeZoneName: 'short'
+      //       }).toLowerCase()
   else {
     return (
-    "I don't know when");}
+    "i don't know when");}
 }
 
 videoPanel() {
   switch(this.state.panel) {
     case STARTSCREEN:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <p className="MessageText">
             This is the start.
           </p>
@@ -291,7 +502,7 @@ videoPanel() {
       );
     case U_0OPEN:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <p className="MessageText">
             U
           </p>
@@ -299,43 +510,43 @@ videoPanel() {
       );
     case U_1STAIRS:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/489ddeb0191fe5c6c0/b2f93f8fc3c6acbb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_1WASHROOM:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/489ddeb01919e4c1c0/fb8cde0f81b24e24?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_2BANK:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/d49ddeb01919e4c25c/8f920320563f4217?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_3LAPTOP:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/4c9ddeb01919e4c4c4/360da22554e2fca4?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_3COFFEE:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/a49ddeb01919e4c62c/52e7895790efd1a7?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_4WALK:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/709ddeb0191ee5c1f8/c31a4698d13a9e14?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_0OPEN:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
           <p className="MessageText">
             O
           </p>
@@ -343,47 +554,47 @@ videoPanel() {
       );
     case O_1STAIRS:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
         </div>
       );
     case O_1WASHROOM:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
         </div>
       );
     case O_2BANK:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
         </div>
       );
     case O_3LAPTOP:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
         </div>
       );
     case O_3COFFEE:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
         </div>
       );
     case O_4WALK:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
         </div>
       );
     case FINAL_TOGETHER:
       return (
-        <div className="VidDiv">
+        <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
         </div>
       );
   }
 }
 
-testButton() {
-  return(
-  <button className='NavButton' onClick={() => {api.pressButton();
-    this.playSound1();}}>Test</button>);
-}
+handleMouseMove(e) {
+    this.setState({mouseMoved: true});
+    //console.log('new mousemove, who dis: ', this);
+  }
+
 
 //##############################################################################
 // Copyright (C) 2011 by Will Tomlins
@@ -496,12 +707,13 @@ humanized_time_span(date, ref_date, date_formats, time_units) {
 render() {
   return (
     <div className="App">
-      <div className='PageBG'></div>
+      <div className='PageBG' onMouseMove={(e) => this.handleMouseMove(e)}></div>
       <p className="TitleText">
         {this.TimeText()}
         </p>
+      {this.bgSound()}
       {this.sound1()}
-      {this.testButton()}
+      {this.PopulationText()}
       {this.videoPanel()}
       {this.buttons()}
 </div>
