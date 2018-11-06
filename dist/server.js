@@ -18,12 +18,12 @@ const io = socketIO(server);
 app.use(csp({
     policies: {
         'reportOnly' : true,
-        'default-src': [csp.SELF, csp.INLINE, 'https:'],
-        'script-src': [csp.SELF, csp.INLINE, 'laurarodgers.com', 'unsafe-inline'],
-        'media-src' : [csp.SELF, 'unsafe-inline'],
-        'style-src': [csp.SELF, csp.INLINE, 'laurarodgers.com','unsafe-inline'],
-        'img-src': [csp.SELF,'https:', 'laurarodgers.com','unsafe-inline'],
-        'worker-src': [csp.NONE,'unsafe-inline'],
+        'default-src': [csp.SELF, csp.INLINE, 'videos.sproutvideo.com', 'https:'],
+        'script-src': [csp.SELF, csp.INLINE, 'sproutvideo.com', 'laurarodgers.com'],
+        'media-src' : [csp.SELF, csp.INLINE, 'sproutvideo.com'],
+        'style-src': [csp.SELF, csp.INLINE, 'sproutvideo.com', 'laurarodgers.com'],
+        'img-src': [csp.SELF, csp.INLINE, 'sproutvideo.com', 'https:', 'laurarodgers.com'],
+        'worker-src': [csp.NONE],
         'block-all-mixed-content': false,
 
     }

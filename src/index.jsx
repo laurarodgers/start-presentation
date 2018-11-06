@@ -195,6 +195,14 @@ TimeText() {
     "I don't know when");}
 }
 
+heroVid() {
+  return (
+    <div className="VidDiv">
+    <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/e89ddeb01919e2cf60/27668b28f9badfb7?showControls=false' width='640' height='360' frameborder='0' allowfullscreen></iframe>
+</div>
+);
+}
+
 videoVid() {
   if (this.state.video == 1) {
     return (
@@ -232,7 +240,7 @@ render() {
         {this.TimeText()}
         </p>
       {this.sound1()}
-      {this.videoVid()}
+      {this.heroVid()}
       <div className="VidDiv">
   {this.UButton()}
   {this.BButton()}
