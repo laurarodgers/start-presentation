@@ -763,37 +763,37 @@ videoPanel() {
     case U_1STAIRS:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/489ddeb0191fe5c6c0/b2f93f8fc3c6acbb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/7c9dddb41f1de1c0f4/99cdbc2fcfdf6f87?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_1WASHROOM:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/489ddeb01919e4c1c0/fb8cde0f81b24e24?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/709dddb41f1de1c7f8/ca785bce698a7e86?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_2BANK:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/d49ddeb01919e4c25c/8f920320563f4217?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/a09dddb41f1de2c028/4f05f860fdb79df2?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_3LAPTOP:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/4c9ddeb01919e4c4c4/360da22554e2fca4?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/4c9dddb41f1de1c4c4/ed3c38a388c0fc67?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_3COFFEE:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/a49ddeb01919e4c62c/52e7895790efd1a7?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/d49dddb41f1de1c25c/e8170c434d7befc2?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case U_4WALK:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/709ddeb0191ee5c1f8/c31a4698d13a9e14?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/189dddb41f1de1c590/894e96b852c4603c?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_0OPEN:
@@ -808,43 +808,43 @@ videoPanel() {
     case O_1STAIRS:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/709ddeb0181ae1c0f8/abd20eceba2243cb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='https://videos.sproutvideo.com/embed/7c9dddb41f1de2c3f4/db88ac356b2842df?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_1WASHROOM:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/e89ddeb0181ae6c960/67b2897ce9c0de38?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/489dddb41f1de1c1c0/dfecce8accda207b?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_2BANK:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9ddeb0181beac594/668a5aae7aec1d99?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9dddb41f1de0c994/93ccbe66fcdc60eb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_3LAPTOP:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9ddeb01818e1cd94/38f18e8204d400eb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9dddb41f1de1c894/8e576e220cb2c9b7?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_3COFFEE:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9ddeb01818e1cd94/38f18e8204d400eb?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/1c9dddb41f1de1c894/8e576e220cb2c9b7?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case O_4WALK:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/4c9ddeb01819e0c1c4/1d463b38ab4acaf2?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437'  className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/a49dddb41f1de1c62c/9d8c4489cf8fb538?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437'  className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
     case FINAL_TOGETHER:
       return (
         <div className="VidDiv" onMouseMove={(e) => this.handleMouseMove(e)}>
-          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/e89ddeb01819e1cd60/73434e38189ed8b6?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
+          <iframe class='sproutvideo-player' src='//videos.sproutvideo.com/embed/a09dddb41f1de1c328/25f25686077d23fe?autoPlay=true&amp;showControls=false&amp;playerTheme=dark&amp;playerColor=2f3437' className="VidStyle" frameborder='0' allowfullscreen></iframe>
         </div>
       );
   }
