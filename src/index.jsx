@@ -673,14 +673,20 @@ TimeText() {
       let hours = Math.floor(diff_date/3600000);
       if (hours < 10) {
         hours = "0" + hours;
+      } else if (hours == "0-1") {
+        hours = "00";
       }
       let mins = Math.floor((diff_date-hours*3600000)/60000);
       if (mins < 10) {
         mins = "0" + mins;
+      } else if (mins == NaN) {
+        mins = "00";
       }
       let secs = Math.floor((diff_date-hours*3600000-mins*60000)/1000);
       if (secs < 10) {
         secs = "0" + secs;
+      } else if (secs == NaN) {
+        secs = "00";
       }
       return (
         hours + ":" + mins + ":" + secs
