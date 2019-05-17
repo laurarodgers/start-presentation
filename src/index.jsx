@@ -678,13 +678,17 @@ TimeText() {
         hours = "0" + hours;
       }
       let mins = Math.floor((diff_date-hours*3600000)/60000);
-      if (mins < 10) {
+      if (mins < 1) {
+        mins = "00";
+      } else if (mins < 10) {
         mins = "0" + mins;
       } else if ("A" + mins == "ANaN") {
         mins = "00";
       }
       let secs = Math.floor((diff_date-hours*3600000-mins*60000)/1000);
-      if (secs < 10) {
+      if (secs < 1) {
+        secs = "00";
+      } else if (secs < 10) {
         secs = "0" + secs;
       } else if ("A" + secs == "ANaN") {
         secs = "00";
