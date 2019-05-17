@@ -671,12 +671,12 @@ TimeText() {
       let diff_date = ref_date-date;
       //console.log('diff date: '+ diff_date);
       let hours = Math.floor(diff_date/3600000);
-      if ("A" + hours == "A0-1") {
+      if (hours < 1) {
         hours = "00";
       }
       else if (hours < 10) {
         hours = "0" + hours;
-      } 
+      }
       let mins = Math.floor((diff_date-hours*3600000)/60000);
       if (mins < 10) {
         mins = "0" + mins;
